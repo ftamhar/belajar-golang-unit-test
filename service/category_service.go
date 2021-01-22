@@ -10,11 +10,13 @@ type CategoryService struct {
 	Repository repository.CategoryRepository
 }
 
-func (service CategoryService) Get(id string) (*entity.Category, error) {
+func (service CategoryService) Get(id int) (*entity.Category, error) {
+	if id <= 0 {
+		return nil, errors.New("Category Not Found")
+	}
 	category := service.Repository.FindById(id)
 	if category == nil {
 		return nil, errors.New("Category Not Found")
-	} else {
-		return category, nil
 	}
+	return category, nil
 }
